@@ -32,7 +32,7 @@ module.exports = (robot) ->
     msg.send "#{msg.message.user.name}: No, #{abuse}"
 
   robot.respond /sudo (.+)/i, (msg) ->
-    msg.send "#{msg.message.user.name}: Are you sure?"
+    msg.send "#{msg.message.user.name}: Nice try, dickweed."
 
   robot.hear /hipster/i, (msg) ->
     msg.send "speaking of hipsters: http://bit.ly/vSCmTB"
