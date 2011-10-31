@@ -26,7 +26,7 @@ module.exports = (robot) ->
   robot.respond /(you(( are|'?re)( such a)?)?|is( such)? a) /i, (msg) ->
     msg.send "#{msg.message.user.name}: #{msg.random retorts}"
 
-  robot.respond /(?:.* )?((?:get|fuck|suck|blow|eat) (?:.*))/i, (msg) ->
+  robot.respond /(?:.* )?((?:get|fuck|suck|blow|eat|make|do) (?:.*))/i, (msg) ->
     abuse = msg.match[1]
     abuse = "you #{abuse}" unless abuse.match /you/i
     msg.send "#{msg.message.user.name}: No, #{abuse}"
@@ -36,3 +36,6 @@ module.exports = (robot) ->
 
   robot.hear /^((any(way|hoo|how)|ok|well|right),? )?((good ?)?night|cya|see you|c u|later|I'?m off|bye|time (for|to head to) (bed|sleep|zzz)|bed ?time)/i, (msg) ->
     msg.send "#{msg.random farewells}"
+
+  robot.respond /sudo (.+)/i, (msg) ->
+    msg.send "#{msg.random farewells} are you sure?"
