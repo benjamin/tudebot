@@ -14,7 +14,7 @@ responses = [
 ]
 
 module.exports = (robot) ->
-  robot.respond /^you(?:'re a)? (?:.+)$/i, (msg) ->
+  robot.respond /^you('re a)? (.+)$/i, (msg) ->
     msg.send msg.random responses
 
   robot.respond /^(?:no,? you )?(fuck off|get fucked|suck my (.*)|blow me)$/i, (msg) ->
