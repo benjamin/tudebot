@@ -2,8 +2,6 @@
 #
 # fakt me - Returns a random fakt. Great conversation starters!
 
-fakt_sources =
-
 module.exports = (robot) ->
   robot.respond /(fakt)( me)?/i, (msg) ->
     fakt msg, msg.random(fakt_sources()), (result) ->
