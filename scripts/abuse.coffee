@@ -31,11 +31,11 @@ module.exports = (robot) ->
     abuse = "you #{abuse}" unless abuse.match /you/i
     msg.send "#{msg.message.user.name}: No, #{abuse}"
 
+  robot.respond /sudo (.+)/i, (msg) ->
+    msg.send "#{msg.message.user.name}: Are you sure?"
+
   robot.hear /hipster/i, (msg) ->
     msg.send "speaking of hipsters: http://bit.ly/vSCmTB"
 
   robot.hear /^((any(way|hoo|how)|ok|well|right),? )?((good ?)?night|cya|see you|c u|later|I'?m off|bye|time (for|to head to) (bed|sleep|zzz)|bed ?time)/i, (msg) ->
     msg.send "#{msg.random farewells}"
-
-  robot.respond /sudo (.+)/i, (msg) ->
-    msg.send "#{msg.random farewells} are you sure?"
