@@ -36,7 +36,9 @@ module.exports = (robot) ->
     msg.send "#{msg.message.user.name}: #{msg.random retorts}"
 
   robot.respond /(?:.* )?((?:get|fuck|suck|blow|eat) (?:.*))/i, (msg) ->
-    msg.send "#{msg.message.user.name}: No, you #{msg.match[1]}"
+    abuse = msg.match[1]
+    abuse = "you #{abuse}" unless abuse.match /you/i
+    msg.send "#{msg.message.user.name}: No, #{abuse}"
 
   robot.hear /hipster/i, (msg) ->
     msg.send "http://lh5.googleusercontent.com/-4fBmLnw8NZY/AAAAAAAAAAI/AAAAAAAAAAA/j-Aj19PYz9Y/photo.jpg"
