@@ -44,7 +44,7 @@ adjectives = ['acidic', 'antique', 'contemptible', 'culturally-unsound', 'despic
 module.exports = (robot) ->
   robot.respond /insult (.+)/i, (msg) ->
     username = msg.match?[1]
-    msg.send "#{username}: #{build_insult msg}"
+    msg.send "#{username.trim()}: #{build_insult msg}"
 
 build_insult = (msg) ->
   first_adj = msg.random adjectives
