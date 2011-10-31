@@ -41,7 +41,7 @@ module.exports = (robot) ->
   robot.hear /hipster/i, (msg) ->
     msg.send "http://lh5.googleusercontent.com/-4fBmLnw8NZY/AAAAAAAAAAI/AAAAAAAAAAA/j-Aj19PYz9Y/photo.jpg"
 
-  robot.hear /^(any(way|hoo|how|ok|well),? )?((good ?)?night|cya|see you|c u|later|I'?m off)/i, (msg) ->
+  robot.hear /^((any(way|hoo|how)|ok|well),? )?((good ?)?night|cya|see you|c u|later|I'?m off)/i, (msg) ->
     msg.send msg.random farewells
 
   robot.hear /^((good ?)?morning|hiya|howdy|g'?day)/i, (msg) ->
