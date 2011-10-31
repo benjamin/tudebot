@@ -13,21 +13,12 @@ retorts = [
   "Blow me"
 ]
 
-greetings = [
-  "Where the fuck have you been?",
-  "About time you showed up, you lazy fuck",
-  "Had a little sleep in, did we?",
-  "About fucking time you showed up, it's as boring as batshit in here.",
-  "Oh fuck, not you!"
-]
-
 farewells = [
-  "Cya cocksucker",
+  "Cya, cocksucker",
   "Adios, turdburgler",
-  "Finally!",
   "I was beginning to think you'd never leave",
   "Good riddance!",
-  "And don't come back!",
+  "Yeah, and don't come back!",
   "That's right, fuck off!"
 ]
 
@@ -44,7 +35,4 @@ module.exports = (robot) ->
     msg.send "speaking of hipsters: http://bit.ly/vSCmTB"
 
   robot.hear /^((any(way|hoo|how)|ok|well|right),? )?((good ?)?night|cya|see you|c u|later|I'?m off|bye)/i, (msg) ->
-    msg.send "#{msg.message.user.name}: #{msg.random farewells}"
-
-  robot.hear /^((good ?)?morning|hiya|howdy|g'?day|ladies)/i, (msg) ->
-    msg.send "#{msg.message.user.name}: #{msg.random greetings}"
+    msg.send "#{msg.random farewells}"
