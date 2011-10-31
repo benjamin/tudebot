@@ -32,7 +32,7 @@ farewells = [
 ]
 
 module.exports = (robot) ->
-  robot.respond /(you(( are|'?re)( such a)?)|is a) /i, (msg) ->
+  robot.respond /(you(( are|'?re)( such a)?)?|is a) /i, (msg) ->
     msg.send "#{msg.message.user.name}: #{msg.random retorts}"
 
   robot.respond /(?:.* )?((?:get|fuck|suck|blow|eat) (?:.*))/i, (msg) ->
