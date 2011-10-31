@@ -14,8 +14,11 @@ responses = [
 ]
 
 module.exports = (robot) ->
-  robot.respond /you('re a)? /i, (msg) ->
+  robot.respond /(you('re a)?|is a) /i, (msg) ->
     msg.send msg.random responses
 
-  robot.respond /(?:no,? you )?(fuck off|get fucked|suck my (.*)|blow me)/i, (msg) ->
+  robot.respond /(?:.* )?((?:get|fuck|suck|blow|eat) (?:.*))/i, (msg) ->
     msg.send "No, you " + msg.match[1]
+
+  robot.hear /hipster/i, (msg) ->
+    msg.send "http://lh5.googleusercontent.com/-4fBmLnw8NZY/AAAAAAAAAAI/AAAAAAAAAAA/j-Aj19PYz9Y/photo.jpg"
