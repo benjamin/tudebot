@@ -42,7 +42,7 @@ module.exports = (robot) ->
     msg.send "http://lh5.googleusercontent.com/-4fBmLnw8NZY/AAAAAAAAAAI/AAAAAAAAAAA/j-Aj19PYz9Y/photo.jpg"
 
   robot.hear /^((any(way|hoo|how)|ok|well|right),? )?((good ?)?night|cya|see you|c u|later|I'?m off)/i, (msg) ->
-    msg.send msg.random farewells
+    msg.send "#{msg.message.user.name}: #{msg.random farewells}"
 
   robot.hear /^((good ?)?morning|hiya|howdy|g'?day|ladies)/i, (msg) ->
-    msg.send msg.random greetings
+    msg.send "#{msg.message.user.name}: #{msg.random greetings}"
