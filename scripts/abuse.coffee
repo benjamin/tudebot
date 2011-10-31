@@ -18,7 +18,8 @@ module.exports = (robot) ->
     msg.send msg.random responses
 
   robot.respond /(?:.* )?((?:get|fuck|suck|blow|eat) (?:.*))/i, (msg) ->
-    msg.send "No, you " + msg.match[1]
+    abuse = msg.match[1]
+    msg.send "#{msg.user.id} No, you #{abuse}"
 
   robot.hear /hipster/i, (msg) ->
     msg.send "http://lh5.googleusercontent.com/-4fBmLnw8NZY/AAAAAAAAAAI/AAAAAAAAAAA/j-Aj19PYz9Y/photo.jpg"
