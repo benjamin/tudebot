@@ -16,5 +16,5 @@ module.exports = (robot) ->
   robot.respond /(you suck|(you('re a)? )?(dip shit|retard|dickhead|dumb ass))/i, (msg) ->
     msg.send msg.random responses
 
-  robot.respond /(fuck off|get fucked|suck my balls)$/i, (msg) ->
-    msg.send "no you " + msg.match[1]
+  robot.respond /(fuck off|get fucked|suck my (.*))$/i, (msg) ->
+    msg.send "no, you " + msg.match[1]
