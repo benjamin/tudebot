@@ -47,11 +47,12 @@ module.exports = (robot) ->
     msg.send "#{username}: #{build_insult msg}"
 
 build_insult = (msg) ->
-  adjs = msg.random adjectives
+  first_adj = msg.random adjectives
+  second_adj = msg.random adjectives
   noun = msg.random nouns
   amount = msg.random amounts
   prefix = "a"
-  if adjs.substr(0,1).match(/a|e|i|o|u/)
+  if first_adj.substr(0,1).match(/a|e|i|o|u/)
     prefix = "an"
 
-  "You are nothing but #{prefix} #{adjs} #{amount} of #{adjs} #{noun}"
+  "You are nothing but #{prefix} #{first_adj} #{amount} of #{second_adj} #{noun}"
