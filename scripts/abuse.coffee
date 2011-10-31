@@ -43,7 +43,7 @@ module.exports = (robot) ->
   robot.hear /hipster/i, (msg) ->
     msg.send "speaking of hipsters: http://bit.ly/vSCmTB"
 
-  robot.hear /^((any(way|hoo|how)|ok|well|right),? )?((good ?)?night|cya|see you|c u|later|I'?m off)/i, (msg) ->
+  robot.hear /^((any(way|hoo|how)|ok|well|right),? )?((good ?)?night|cya|see you|c u|later|I'?m off|bye)/i, (msg) ->
     msg.send "#{msg.message.user.name}: #{msg.random farewells}"
 
   robot.hear /^((good ?)?morning|hiya|howdy|g'?day|ladies)/i, (msg) ->
