@@ -2,7 +2,12 @@
 #
 
 module.exports = (robot) ->
-  robot.respond /alice (.+)/i, (msg) ->
+  robot.hear /alice[:,.;]? (.*)/i, (msg) ->
+    text = "#{msg.match?[1]}"
+    alice msg, text, (response) ->
+      msg.send response
+
+  robot.hear /^(.+alice.*)/i, (msg) ->
     text = "#{msg.match?[1]}"
     alice msg, text, (response) ->
       msg.send response
