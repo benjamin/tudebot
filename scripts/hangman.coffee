@@ -79,7 +79,7 @@ class Game
       callback "You have #{pluralisedGuess(@remainingGuesses)} remaining"
 
 module.exports = (robot) ->
-  games = {}
+  gamesByRoom = {}
 
   robot.respond /hangman( .*)?$/i, (msg) ->
 
@@ -89,10 +89,8 @@ module.exports = (robot) ->
 
     room = msg.message.user.room
 
-    msg.send "Your room is #{room}"
-
-    play msg, games[room], (game) ->
-      game[room] = game
+    play msg, gamesByRoom[room], (game) ->
+      gamesByRoom[room] = game
       game.guess(msg.match[1])
       game.eachMessage (message) -> msg.send(message)
 
