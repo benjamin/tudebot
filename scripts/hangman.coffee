@@ -8,6 +8,7 @@ class Game
     @wordLetters = @word.split(//)
     @answerLetters = ("_" for letter in @wordLetters)
     @remainingGuesses = 9
+    @previousGuesses = []
     @message = null
 
   isFinished: ->
@@ -20,17 +21,20 @@ class Game
     @remainingGuesses == 0
 
   guess: (guess) ->
-    if guess
-      guess = guess.trim().toUpperCase()
+    if !guess
+      @noGuess()
+      return
+
+    guess = guess.trim().toUpperCase()
+
+    if @previousGuesses.indexOf(guess) != -1
+      @duplicateGuess(guess)
+    else
+      @previousGuesses.push(guess)
       if guess.length == 1
         @guessLetter(guess)
       else
         @guessWord(guess)
-    else
-      @noGuess()
-
-  noGuess: ->
-    @message = null
 
   guessLetter: (guess) ->
     indexes = (index for letter, index in @wordLetters when guess == letter)
@@ -46,6 +50,12 @@ class Game
       @correctGuess("Yes, that's correct")
     else
       @incorrectGuess("Sorry, the word is not #{guess}")
+
+  noGuess: ->
+    @message = null
+
+  duplicateGuess: (guess) ->
+    @message = "You already used that"
 
   correctGuess: (message) ->
     @message = message
