@@ -9,7 +9,11 @@ module.exports = (robot) ->
 
   robot.respond /abuse (.*)$/i, (msg) ->
     insult msg, (phrase) ->
-      msg.send "#{nameOf(msg, msg.match[1])}: You are #{phrasePrefixedWithIndefiniteArticle(phrase)}"
+      name = nameOf(msg.match[1], robot, msg)
+      switch name
+        when robot.name then msg.send "#{msg.message.user.name}: Nice try, you #{phrase}"
+        when msg.message.user.name then msg.send "#{msg.message.user.name}: What kind of #{phrase} tries to abuse themselves?"
+        else msg.send "#{name}: You are #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
   robot.respond /(?:you(?:'?re?)?|is) /i, (msg) ->
     insult msg, (phrase) ->
@@ -19,11 +23,12 @@ module.exports = (robot) ->
     insult msg, (phrase) ->
       msg.send "#{msg.message.user.name}: No, #{personalizedPhrase(msg.match[1])}, you #{phrase}"
 
-nameOf = (msg, name) ->
-  if name.toLowerCase() == "me"
-    msg.message.user.name
-  else
-    name.trim()
+nameOf = (subject, robot, msg) ->
+  switch subject.toLowerCase()
+    when "me" then msg.message.user.name
+    when "yourself" then robot.name
+    when msg.message.user.name.toLowerCase() then msg.message.user.name
+    else subject.trim()
 
 phrasePrefixedWithIndefiniteArticle = (phrase) ->
   if phrase.match /^h?[aeiou]/i
