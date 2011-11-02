@@ -89,8 +89,8 @@ module.exports = (robot) ->
 
     room = msg.message.user.room
 
-    play msg, games[room], (newGame) ->
-      game[room] = newGame
+    play msg, games[room], (game) ->
+      game[room] = game
       game.guess(msg.match[1])
       game.eachMessage (message) -> msg.send(message)
 
