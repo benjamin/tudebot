@@ -46,7 +46,7 @@ insult = (msg, callback) ->
   msg.http("http://www.insultsandabuse.com/generate_and_send.php")
     .headers
       "Accept": "*/*"
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/x-www-form-urlencoded"
     .post("create_insult=\n") (err, res, body) ->
       matches = body.match /Your specially rolled insult is:.*?<h1>(.*?)<\/h1>/
       if matches
