@@ -3,19 +3,19 @@
 # <abuse> - Bring it on.
 
 module.exports = (robot) ->
-  robot.respond /sudo (.+)/i, (msg) ->
+  robot.respond /sudo .+/i, (msg) ->
     insult msg, (response) ->
       msg.send "#{msg.message.user.name}: Nice try, you #{response}"
 
-  robot.respond /abuse (.+)/i, (msg) ->
+  robot.respond /abuse (.*)$/i, (msg) ->
     insult msg, (response) ->
       msg.send "#{identified(msg, msg.match[1])}: You are #{articled(response)}"
 
-  robot.respond /(you('?re?)?|is) /i, (msg) ->
+  robot.respond /(?:you(?:'?re?)?|is) /i, (msg) ->
     insult msg, (response) ->
-      msg.send "#{msg.message.user.name}: No, you're #{articled(response)}"
+      msg.send "#{msg.message.user.name}: And you're #{articled(response)}"
 
-  robot.respond /((?:get|fuck|suck|blow|eat|make|do|give|take) (?:.*))/i, (msg) ->
+  robot.respond /((?:get|fuck|suck|blow|eat|make|do|give|take|ride) (?:.*))/i, (msg) ->
     insult msg, (response) ->
       msg.send "#{msg.message.user.name}: No, #{personalized(msg.match[1])}, you #{response}"
 
@@ -32,7 +32,7 @@ articled = (phrase) ->
     "a #{phrase}"
 
 personalized = (phrase) ->
-  if phrase.match /you/i
+  if phrase.match /you$/i
     phrase
   else
     "you #{phrase}"
