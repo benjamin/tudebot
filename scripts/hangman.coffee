@@ -1,8 +1,4 @@
 # The game of hangman.
-#
-# hangman - Show the status of the current game.
-# hangman <letter> - Make a single letter guess.
-# hangman <word> - Guess the entire word.
 
 class Game
 
@@ -46,7 +42,7 @@ class Game
   guessWord: (guess) ->
     if guess == @word
       @answerLetters = @wordLetters
-      @correctGuess("Congratulations!")
+      @correctGuess("Yes, that's correct")
     else
       @incorrectGuess("Sorry, the word is not #{guess}")
 
@@ -62,8 +58,11 @@ class Game
 
     if @wasHung()
       callback "You have no remaining guesses"
+      callback "The #{@wordLetters.length} letter word was: #{@wordLetters.join(' ')}"
+    else if @wasAnswered()
+      callback "Congratulations!"
     else
-      callback "The #{@wordLetters.length} letter word is: #{@answerLetters.join(' ')}"
+      callback "The #{@answerLetters.length} letter word is: #{@answerLetters.join(' ')}"
       callback "You have #{@remainingGuesses} guesses remaining" unless @wasAnswered()
 
 module.exports = (robot) ->
