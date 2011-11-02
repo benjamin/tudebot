@@ -1,6 +1,6 @@
 # The game of hangman.
 #
-# hangman - Show the status of the current game, or starts a new game if necessary.
+# hangman - Show the status of the current game.
 # hangman <letter> - Make a single letter guess.
 # hangman <word> - Guess the entire word.
 
