@@ -1,5 +1,6 @@
 # The game of hangman.
-
+#
+# hangman <letterOrWord> - Make a guess
 class Game
 
   constructor: (word) ->
@@ -56,14 +57,16 @@ class Game
   eachMessage: (callback) ->
     callback @message if @message
 
-    if @wasHung()
-      callback "You have no remaining guesses"
+    if @isFinished()
+      if @wasHung()
+        callback "You have no remaining guesses"
+      else if @wasAnswered()
+        callback "Congratulations!"
+
       callback "The #{@wordLetters.length} letter word was: #{@wordLetters.join(' ')}"
-    else if @wasAnswered()
-      callback "Congratulations!"
     else
       callback "The #{@answerLetters.length} letter word is: #{@answerLetters.join(' ')}"
-      callback "You have #{@remainingGuesses} guesses remaining" unless @wasAnswered()
+      callback "You have #{pluralisedGuess(@remainingGuesses)} remaining"
 
 module.exports = (robot) ->
   game = new Game("")
@@ -104,3 +107,9 @@ isOrAre = (count, letter) ->
     "is one #{letter}"
   else
     "are #{count} #{letter}'s"
+
+pluralisedGuess = (count) ->
+  if count == 1
+    "one guess"
+  else
+    "#{count} guesses"
