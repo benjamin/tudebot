@@ -4,34 +4,34 @@
 
 module.exports = (robot) ->
   robot.respond /sudo .+/i, (msg) ->
-    insult msg, (response) ->
-      msg.send "#{msg.message.user.name}: Nice try, you #{response}"
+    insult msg, (phrase) ->
+      msg.send "#{msg.message.user.name}: Nice try, you #{phrase}"
 
   robot.respond /abuse (.*)$/i, (msg) ->
-    insult msg, (response) ->
-      msg.send "#{identified(msg, msg.match[1])}: You are #{articled(response)}"
+    insult msg, (phrase) ->
+      msg.send "#{identity(msg, msg.match[1])}: You are #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
   robot.respond /(?:you(?:'?re?)?|is) /i, (msg) ->
-    insult msg, (response) ->
-      msg.send "#{msg.message.user.name}: And you're #{articled(response)}"
+    insult msg, (phrase) ->
+      msg.send "#{msg.message.user.name}: And you're #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
-  robot.respond /((?:get|fuck|suck|blow|eat|make|do|give|take|ride) (?:.*))/i, (msg) ->
-    insult msg, (response) ->
-      msg.send "#{msg.message.user.name}: No, #{personalized(msg.match[1])}, you #{response}"
+  robot.respond /((?:get|fuck|suck|blow|eat|make|do|give|take|ride|go) (?:.*))/i, (msg) ->
+    insult msg, (phrase) ->
+      msg.send "#{msg.message.user.name}: No, #{personalizedPhrase(msg.match[1])}, you #{phrase}"
 
-identified = (msg, name) ->
+identity = (msg, name) ->
   if name.toLowerCase() == "me"
     msg.message.user.name
   else
     name
 
-articled = (phrase) ->
+phrasePrefixedWithIndefiniteArticle = (phrase) ->
   if phrase.match /^h?[aeiou]/i
     "an #{phrase}"
   else
     "a #{phrase}"
 
-personalized = (phrase) ->
+personalizedPhrase = (phrase) ->
   if phrase.match /you$/i
     phrase
   else
