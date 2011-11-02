@@ -9,7 +9,7 @@ module.exports = (robot) ->
 
   robot.respond /abuse (.*)$/i, (msg) ->
     insult msg, (phrase) ->
-      msg.send "#{identity(msg, msg.match[1])}: You are #{phrasePrefixedWithIndefiniteArticle(phrase)}"
+      msg.send "#{nameOf(msg, msg.match[1])}: You are #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
   robot.respond /(?:you(?:'?re?)?|is) /i, (msg) ->
     insult msg, (phrase) ->
@@ -19,11 +19,11 @@ module.exports = (robot) ->
     insult msg, (phrase) ->
       msg.send "#{msg.message.user.name}: No, #{personalizedPhrase(msg.match[1])}, you #{phrase}"
 
-identity = (msg, name) ->
+nameOf = (msg, name) ->
   if name.toLowerCase() == "me"
     msg.message.user.name
   else
-    name
+    name.trim()
 
 phrasePrefixedWithIndefiniteArticle = (phrase) ->
   if phrase.match /^h?[aeiou]/i
