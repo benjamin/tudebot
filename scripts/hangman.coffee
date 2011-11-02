@@ -79,23 +79,23 @@ class Game
       callback "You have #{pluralisedGuess(@remainingGuesses)} remaining"
 
 module.exports = (robot) ->
-  game = new Game("")
+  games = {}
 
   robot.respond /hangman( .*)?$/i, (msg) ->
-
-    msg.send "I'm in room #{msg.message.user.room}"
 
     if process.env.WORDNIK_API_KEY == undefined
       msg.send "Missing WORDNIK_API_KEY env variable."
       return
 
-    play msg, game, (newGame) ->
-      game = newGame
+    room = msg.message.user.room
+
+    play msg, games[room], (newGame) ->
+      game[room] = newGame
       game.guess(msg.match[1])
       game.eachMessage (message) -> msg.send(message)
 
 play = (msg, game, callback) ->
-  if game.isFinished()
+  if !game or game.isFinished()
     generateWord msg, (word) -> callback new Game(word)
   else
     callback game
