@@ -55,7 +55,7 @@ class Game
     @message = null
 
   duplicateGuess: (guess) ->
-    @message = "You already used that"
+    @message = "You already tried #{guess} so I'll pretend that never happened"
 
   correctGuess: (message) ->
     @message = message
