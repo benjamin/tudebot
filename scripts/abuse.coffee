@@ -2,40 +2,49 @@
 #
 # <abuse> - Bring it on.
 
-retorts = [
-  "Takes one to know one",
-  "I know you are, you said you are, so what am I?",
-  "Same to you cunty",
-  "That's enough out of you arse wipe",
-  "Could be worse, I could be mrowe",
-  "At least I don't look like a scruttocks",
-  "Don't mention it fuck face",
-  "Blow me"
-]
-
-farewells = [
-  "Cya, cocksucker",
-  "Adios, turdburgler",
-  "I was beginning to think you'd never leave",
-  "Good riddance!",
-  "Yeah, and don't come back!",
-  "That's right, fuck off!"
-]
-
 module.exports = (robot) ->
-  robot.respond /(you(( are|'?re)( such a)?)?|is( such)? a) /i, (msg) ->
-    msg.send "#{msg.message.user.name}: #{msg.random retorts}"
-
-  robot.respond /(?:.* )?((?:get|fuck|suck|blow|eat|make|do) (?:.*))/i, (msg) ->
-    abuse = msg.match[1]
-    abuse = "you #{abuse}" unless abuse.match /you/i
-    msg.send "#{msg.message.user.name}: No, #{abuse}"
-
   robot.respond /sudo (.+)/i, (msg) ->
-    msg.send "#{msg.message.user.name}: Nice try, dickweed."
+    insult msg, (response) ->
+      msg.send "#{msg.message.user.name}: Nice try, you #{response}"
 
-  robot.hear /hipster/i, (msg) ->
-    msg.send "speaking of hipsters: http://bit.ly/vSCmTB"
+  robot.respond /abuse (.+)/i, (msg) ->
+    insult msg, (response) ->
+      msg.send "#{identified(msg, msg.match[1])}: You are #{articled(response)}"
 
-  robot.hear /^((any(way|hoo|how)|ok|well|right),? )?((good ?)?night|cya|see you|c u|later|I'?m off|bye|time (for|to head to) (bed|sleep|zzz)|bed ?time)/i, (msg) ->
-    msg.send "#{msg.random farewells}"
+  robot.respond /(you('?re?)?|is) /i, (msg) ->
+    insult msg, (response) ->
+      msg.send "#{msg.message.user.name}: No, you're #{articled(response)}"
+
+  robot.respond /((?:get|fuck|suck|blow|eat|make|do|give|take) (?:.*))/i, (msg) ->
+    insult msg, (response) ->
+      msg.send "#{msg.message.user.name}: No, #{personalized(msg.match[1])}, you #{response}"
+
+identified = (msg, name) ->
+  if name.toLowerCase() == "me"
+    msg.message.user.name
+  else
+    name
+
+articled = (phrase) ->
+  if phrase.match /^h?[aeiou]/i
+    "an #{phrase}"
+  else
+    "a #{phrase}"
+
+personalized = (phrase) ->
+  if phrase.match /you/i
+    phrase
+  else
+    "you #{phrase}"
+
+insult = (msg, callback) ->
+  msg.http("http://www.insultsandabuse.com/generate_and_send.php")
+    .headers
+      "Accept": "*/*"
+      "Content-Type": "application/x-www-form-urlencoded",
+    .post("create_insult=\n") (err, res, body) ->
+      matches = body.match /Your specially rolled insult is:.*?<h1>(.*?)<\/h1>/
+      if matches
+        callback matches[1].toLowerCase()
+      else
+        callback body
