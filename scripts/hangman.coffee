@@ -83,6 +83,8 @@ module.exports = (robot) ->
 
   robot.respond /hangman( .*)?$/i, (msg) ->
 
+    msg.send "I'm in room #{msg.message.user.room}"
+
     if process.env.WORDNIK_API_KEY == undefined
       msg.send "Missing WORDNIK_API_KEY env variable."
       return
