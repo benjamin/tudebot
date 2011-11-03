@@ -11,11 +11,11 @@
 
   "repository" : {
     "type" : "git",
-    "url" : "http://github.com/benjamin/hubot.git"
+    "url" : "http://github.com/github/hubot.git"
   },
 
   "dependencies": {
-    "hubot": "1.1.10",
+    "hubot": "https://github.com/benjamin/hubot/tarball/master",
     "hubot-scripts": "1.1.6",
     "optparse": "1.0.3"
   }
