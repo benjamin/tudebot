@@ -12,7 +12,7 @@ module.exports = (robot) ->
     isSameName(name, robot.name)
 
   isSenderOf = (name, msg) ->
-    isSameName(name, sender(msg).name)
+    isSameName(name, sender(msg).name) or isSameName(name, "i")
 
   roomActivity = (room) ->
     activities[room] ||= {}
