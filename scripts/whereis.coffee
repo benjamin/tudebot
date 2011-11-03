@@ -2,11 +2,17 @@ module.exports = (robot) ->
 
   activities = {}
 
-  isRobot = (name) ->
-    name.toLowerCase() == robot.name.toLowerCase()
-
   sender = (msg) ->
     msg.message.user
+
+  isSameName = (a, b) ->
+    a.toLowerCase() == b.toLowerCase()
+
+  isRobot = (name) ->
+    isSameName(name, robot.name)
+
+  isSenderOf = (name, msg) ->
+    isSameName(name, sender(msg).name)
 
   roomActivity = (room) ->
     activities[room] ||= {}
@@ -18,11 +24,11 @@ module.exports = (robot) ->
     user = sender(msg)
     registerActivity(user.room, user.name, action)
 
+  registerRhetoricalQuestionActivity = (msg) ->
+    registerMessageActivity(msg, "asking rhetorical questions in")
+
   latestActivity = (room, name) ->
-    if isRobot(name)
-      {who: robot.name, doing: "answering rhectorical questions in", when: new Date()}
-    else
-      roomActivity(room)[name.toLowerCase()]
+    roomActivity(room)[name.toLowerCase()]
 
   elapsedMinutesInWords = (minutes) ->
     if minutes == 0
@@ -64,7 +70,17 @@ module.exports = (robot) ->
 
   robot.respond /where(?:'?s| ?is| ?am) ([^?]+)\??$/i, (msg) ->
     name = msg.match[1].trim()
-    if activity = latestActivity(sender(msg).room, name)
-      msg.reply "#{activity.who} was last seen #{activity.doing} this room #{elapsedTimeInWords(activity.when)} ago"
+
+    if isRobot(name)
+      registerRhetoricalQuestionActivity(msg)
+      msg.reply "I was last seen answering rhetorical questions in this room less than a minute ago"
     else
-      msg.reply "Sorry, I don't know anything about #{name}"
+      if isSenderOf(name, msg)
+        registerRhetoricalQuestionActivity(msg)
+        subject = "You were"
+
+      if activity = latestActivity(sender(msg).room, name)
+        subject ||= "#{activity.who} was"
+        msg.reply "#{subject} last seen #{activity.doing} this room #{elapsedTimeInWords(activity.when)} ago"
+      else
+        msg.reply "Sorry, I don't know anything about #{name}"
