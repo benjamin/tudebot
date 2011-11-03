@@ -104,6 +104,7 @@ generateWord = (msg, callback) ->
   msg.http("http://api.wordnik.com/v4/words.json/randomWord")
     .query
       hasDictionaryDef: true
+      minDictionaryCount: 3
       minLength: 5
     .headers
       api_key: process.env.WORDNIK_API_KEY
