@@ -47,6 +47,6 @@ module.exports = (robot) ->
     insult msg, (phrase) ->
       msg.reply "And you're #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
-  robot.respond /((?:get|fuck|suck|blow|eat|make|do|give|take|ride|go|.* your|keep|why) (?:.*))/i, (msg) ->
+  robot.respond /((?:get|fuck|suck|blow|lick|poke|eat|make|do|give|take|ride|go|.* your|keep|why) (?:.*))/i, (msg) ->
     insult msg, (phrase) ->
       msg.reply "No, #{personalizedPhrase(msg.match[1])}, you #{phrase}"
