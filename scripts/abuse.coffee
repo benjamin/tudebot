@@ -7,7 +7,7 @@ module.exports = (robot) ->
     insult msg, (phrase) ->
       msg.reply "Nice try, you #{phrase}"
 
-  robot.respond /abuse (.*)$/i, (msg) ->
+  robot.respond /(?:abuse|insult) (.*)$/i, (msg) ->
     insult msg, (phrase) ->
       name = nameOf(msg.match[1], robot, msg)
       switch name
