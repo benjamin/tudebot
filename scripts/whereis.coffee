@@ -1,6 +1,6 @@
 module.exports = (robot) ->
 
-  activities = {}
+  activities = robot.brain.data.whereis ||= {}
 
   sender = (msg) ->
     msg.message.user
