@@ -1,7 +1,6 @@
 module.exports = (robot) ->
 
-  logger = {}
-  activity = {}
+  activities = {}
 
   isRobot = (name) ->
     name == robot.name
@@ -10,8 +9,7 @@ module.exports = (robot) ->
     msg.message.user
 
   roomActivity = (room) ->
-    logger.send "roomActivity #{room}"
-    activity[room] ||= {}
+    activities[room] ||= {}
 
   registerActivity = (room, name, action) ->
     roomActivity(room)[name.toLowerCase()] = {who: name, doing: action, when: new Date()} unless isRobot(name)
@@ -21,7 +19,6 @@ module.exports = (robot) ->
     registerActivity(user.room, user.name, action)
 
   latestActivity = (room, name) ->
-    logger.send "latestActivity #{room}, #{name}"
     roomActivity(room)[name.toLowerCase()]
 
   elapsedMinutesInWords = (minutes) ->
@@ -54,21 +51,16 @@ module.exports = (robot) ->
     elapsedMinutesInWords(minutes)
 
   robot.enter (msg) ->
-    logger = msg
     registerMessageActivity(msg, "joining")
 
   robot.leave (msg) ->
-    logger = msg
     registerMessageActivity(msg, "leaving")
 
   robot.hear /.*/, (msg) ->
-    logger = msg
     registerMessageActivity(msg, "posting to")
 
   robot.respond /where(?:'?s| ?is| ?am) ([^?]+)\??$/i, (msg) ->
-    logger = msg
     name = msg.match[1].trim()
-    msg.send("Looking for activity on '#{name}' in '#{sender(msg).room}'")
     if activity = latestActivity(sender(msg).room, name)
       msg.reply "#{activity.who} was last seen #{activity.doing} this room #{elapsedTimeInWords(activity.when)} ago"
     else
