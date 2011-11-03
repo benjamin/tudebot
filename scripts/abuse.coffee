@@ -55,7 +55,7 @@ phrasePrefixedWithIndefiniteArticle = (phrase) ->
     "a #{phrase}"
 
 personalizedPhrase = (phrase) ->
-  if phrase.match /(^i('?ve| have)|you$)/i
+  if phrase.match /(^i('?ve| have|'?m| am|'?ll| will)|you$)/i
     phrase
   else
     "you #{phrase}"
