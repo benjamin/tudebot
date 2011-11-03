@@ -60,8 +60,8 @@ module.exports = (robot) ->
     registerMessageActivity(msg, "posting to")
 
   robot.respond /where(?:'?s| ?is| ?am) ([^?]+)\??$/i, (msg) ->
-    name = msg.match[1]
-    msg.send("Looking for activity on '#{name}'")
+    name = msg.match[1].trim()
+    msg.send("Looking for activity on '#{name}' in '#{sender(msg).room}'")
     if activity = latestActivity(sender(msg).room, name)
       msg.reply "#{activity.who} was last seen #{activity.doing} this room #{elapsedTimeInWords(activity.when)} ago"
     else
