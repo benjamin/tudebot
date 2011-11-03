@@ -1,8 +1,3 @@
-# Abuse.
-#
-# <abuse> - Bring it on.
-# where is <nick> - Prints the date on which <nick> last posted.
-
 module.exports = (robot) ->
 
   lastPostingsByRoom = {}
