@@ -31,7 +31,7 @@ module.exports = (robot) ->
     lastPostingsByName = lastPostingsByRoom[msg.message.user.room] ||= {}
     lastPostingsByName[msg.message.user.name.toLowerCase()] = new Date()
 
-  robot.respond /where(?:'?s| is) ([^?]+)\??$/i, (msg) ->
+  robot.respond /where(?:'?s| ?is) ([^?]+)\??$/i, (msg) ->
     insult msg, (phrase) ->
       name = nameOf(msg.match[1], robot, msg)
       switch name
@@ -41,7 +41,7 @@ module.exports = (robot) ->
           lastPostingsByName = lastPostingsByRoom[msg.message.user.room] || {}
           dateLastPosted = lastPostingsByName[name.toLowerCase()]
           if dateLastPosted
-            msg.reply "#{name} last sposted at #{dateLastPosted}"
+            msg.reply "#{name} last posted at #{dateLastPosted}"
           else
             msg.send "#{name}: Where are you, you #{phrase}?"
 
