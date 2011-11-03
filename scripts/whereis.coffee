@@ -3,7 +3,7 @@ module.exports = (robot) ->
   activities = {}
 
   isRobot = (name) ->
-    name == robot.name
+    name.toLowerCase() == robot.name.toLowerCase()
 
   sender = (msg) ->
     msg.message.user
@@ -19,7 +19,10 @@ module.exports = (robot) ->
     registerActivity(user.room, user.name, action)
 
   latestActivity = (room, name) ->
-    roomActivity(room)[name.toLowerCase()]
+    if isRobot(name)
+      {who: robot.name, doing: "answering rhectorical questions in", when: new Date()}
+    else
+      roomActivity(room)[name.toLowerCase()]
 
   elapsedMinutesInWords = (minutes) ->
     if minutes == 0
