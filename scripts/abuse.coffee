@@ -1,6 +1,7 @@
 # Abuse.
 #
 # <abuse> - Bring it on.
+# where is <nick> - Prints the date on which <nick> last posted.
 
 module.exports = (robot) ->
 
@@ -31,7 +32,7 @@ module.exports = (robot) ->
     lastPostingsByName = lastPostingsByRoom[msg.message.user.room] ||= {}
     lastPostingsByName[msg.message.user.name.toLowerCase()] = new Date()
 
-  robot.respond /where(?:'?s| ?is) ([^?]+)\??$/i, (msg) ->
+  robot.respond /where(?:'?s| ?is| ?am) ([^?]+)\??$/i, (msg) ->
     insult msg, (phrase) ->
       name = nameOf(msg.match[1], robot, msg)
       switch name
@@ -47,7 +48,7 @@ module.exports = (robot) ->
 
 nameOf = (subject, robot, msg) ->
   switch subject.toLowerCase()
-    when "me" then msg.message.user.name
+    when "me", "i" then msg.message.user.name
     when "yourself" then robot.name
     when msg.message.user.name.toLowerCase() then msg.message.user.name
     else subject.trim()
