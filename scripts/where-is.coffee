@@ -12,7 +12,7 @@ module.exports = (robot) ->
     isSameName(name, robot.name)
 
   isSenderOf = (name, msg) ->
-    isSameName(name, sender(msg).name) or isSameName(name, "i") or isSameName(name, "me")
+    isSameName(name, sender(msg).name) or isSameName(name, "I") or isSameName(name, "me")
 
   roomActivity = (room) ->
     console.log("Looking for activity for room %s", room)
