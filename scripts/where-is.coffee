@@ -19,7 +19,7 @@ module.exports = (robot) ->
     activities[room] ||= {}
 
   registerActivity = (room, name, action) ->
-    roomActivity(room)[name.toLowerCase()] = {who: name, doing: action, when: new Date()} unless isRobot(name)
+    roomActivity(room)[name.toLowerCase()] = {name: name, action: action, when: new Date()} unless isRobot(name)
 
   registerMessageActivity = (msg, action) ->
     user = sender(msg)
@@ -65,7 +65,9 @@ module.exports = (robot) ->
     registerMessageActivity(msg, "joining")
 
   robot.leave (msg) ->
-    registerMessageActivity(msg, "leaving")
+    reason = msg.message.text
+    reason = " - #{reason}" if reason?
+    registerMessageActivity(msg, "leaving#{reason}")
 
   robot.hear /.*/, (msg) ->
     registerMessageActivity(msg, "posting to")
@@ -81,8 +83,9 @@ module.exports = (robot) ->
         registerRhetoricalQuestionActivity(msg)
         subject = "You were"
 
-      if activity = latestActivity(sender(msg).room, name)
-        subject ||= "#{activity.who} was"
-        msg.reply "#{subject} last seen #{activity.doing} this room #{elapsedTimeInWords(activity.when)} ago"
+      activity = latestActivity(sender(msg).room, name)
+      if activity?
+        subject ||= "#{activity.name} was"
+        msg.reply "#{subject} last seen #{activity.action} this room #{elapsedTimeInWords(activity.when)} ago"
       else
         msg.reply "Sorry, I don't know anything about #{name}"
