@@ -1,3 +1,4 @@
+# a
 module.exports = (robot) ->
 
   activities = robot.brain.data.whereis ||= {}
