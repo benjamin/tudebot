@@ -34,5 +34,4 @@ imageMe = (msg, query, cb) ->
       images = JSON.parse(body)
       images = images.responseData.results
       image  = msg.random images
-      cb "#{image.unescapedUrl}#.png"
-
+      cb googlimage.unescapedUrl

@@ -15,6 +15,7 @@ module.exports = (robot) ->
     isSameName(name, sender(msg).name) or isSameName(name, "i")
 
   roomActivity = (room) ->
+    console.log("Looking for activity for room %s", room)
     activities[room] ||= {}
 
   registerActivity = (room, name, action) ->
@@ -28,6 +29,7 @@ module.exports = (robot) ->
     registerMessageActivity(msg, "asking rhetorical questions in")
 
   latestActivity = (room, name) ->
+    console.log("Looking for activity for %s in room %s", name, room)
     roomActivity(room)[name.toLowerCase()]
 
   elapsedMinutesInWords = (minutes) ->
@@ -40,19 +42,19 @@ module.exports = (robot) ->
     else if minutes < 90
       "about 1 hour"
     else if minutes < 1440
-      "about #{(minutes / 60).round()} hours"
+      "about #{Math.round(minutes / 60)} hours"
     else if minutes < 2160
       "about 1 day"
     else if minutes < 43200
-      "#{(minutes / 1440).round()} days"
+      "#{Math.round(minutes / 1440)} days"
     else if minutes < 86400
       "about 1 month"
     else if minutes < 525600
-      "#{(minutes / 43200).round()} months"
+      "#{Math.round(minutes / 43200)} months"
     else if minutes < 1051200
       "about 1 year"
     else
-      "over #{(minutes / 525600).round()} years"
+      "over #{Math.round(minutes / 525600)} years"
 
   elapsedTimeInWords = (date) ->
     milliseconds = new Date() - date
