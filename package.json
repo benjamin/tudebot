@@ -6,12 +6,12 @@
   "description": "A simple helpful Robot for your Company",
   "licenses":     [{
     "type":       "MIT",
-    "url":        "http://github.com/github/hubot/raw/master/LICENSE"
+    "url":        "http://github.com/benjamin/hubot/raw/master/LICENSE"
   }],
 
   "repository" : {
     "type" : "git",
-    "url" : "http://github.com/github/hubot.git"
+    "url" : "http://github.com/benjamin/hubot.git"
   },
 
   "dependencies": {
