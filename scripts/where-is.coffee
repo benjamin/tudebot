@@ -1,4 +1,3 @@
-# a
 module.exports = (robot) ->
 
   activities = robot.brain.data.whereis ||= {}
@@ -63,7 +62,7 @@ module.exports = (robot) ->
     elapsedMinutesInWords(minutes)
 
   robot.enter (msg) ->
-    registerMessageActivity(msg, "joining")
+    registerMessageActivity(msg, "entering")
 
   robot.leave (msg) ->
     registerMessageActivity(msg, "leaving")
