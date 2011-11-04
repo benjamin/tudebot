@@ -66,8 +66,12 @@ module.exports = (robot) ->
 
   robot.leave (msg) ->
     reason = msg.message.text
-    reason = " - '#{reason}'" if reason?
-    registerMessageActivity(msg, "leaving#{reason}")
+    action = if reason?
+      "leaving - '#{reason}'"
+    else
+      "leaving"
+
+    registerMessageActivity(msg, action)
 
   robot.hear /.*/, (msg) ->
     registerMessageActivity(msg, "posting to")
