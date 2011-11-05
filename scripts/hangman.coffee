@@ -31,10 +31,10 @@ class Game
       @duplicateGuess(guess)
     else
       @previousGuesses.push(guess)
-      if guess.length == 1
-        @guessLetter(guess)
-      else
-        @guessWord(guess)
+      switch guess.length
+        when 1 then @guessLetter(guess)
+        when @word.length @guessWord(guess)
+        else @errantWordGuess(guess)
 
   guessLetter: (guess) ->
     indexes = (index for letter, index in @wordLetters when guess == letter)
@@ -54,8 +54,11 @@ class Game
   noGuess: ->
     @message = null
 
+  errantWordGuess: (guess) ->
+    @message = "The word #{guess} isn't the correct length so let's pretend that never happened, shall we?"
+
   duplicateGuess: (guess) ->
-    @message = "You already tried #{guess} so I'll pretend that never happened"
+    @message = "You already tried #{guess} so let's pretend that never happened, shall we?"
 
   correctGuess: (message) ->
     @message = message
