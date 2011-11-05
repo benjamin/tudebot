@@ -1,7 +1,5 @@
 module.exports = (robot) ->
 
-  activities = robot.brain.data.whereis ||= {}
-
   sender = (msg) ->
     msg.message.user
 
@@ -15,8 +13,7 @@ module.exports = (robot) ->
     isSameName(name, sender(msg).name) or isSameName(name, "I") or isSameName(name, "me")
 
   roomActivity = (room) ->
-    console.log("Looking for activity for room %s", room)
-    activities[room] ||= {}
+    robot.brain.data.whereis[room] ?= {}
 
   registerActivity = (room, name, action) ->
     roomActivity(room)[name.toLowerCase()] = {name: name, action: action, when: new Date()} unless isRobot(name)
@@ -29,7 +26,6 @@ module.exports = (robot) ->
     registerMessageActivity(msg, "asking rhetorical questions in")
 
   latestActivity = (room, name) ->
-    console.log("Looking for activity for %s in room %s", name, room)
     roomActivity(room)[name.toLowerCase()]
 
   elapsedMinutesInWords = (minutes) ->
@@ -61,6 +57,9 @@ module.exports = (robot) ->
     minutes = Math.round(Math.abs(milliseconds / 60000))
     elapsedMinutesInWords(minutes)
 
+  robot.brain.on "loaded", (data) ->
+    data.whereis ?= {}
+
   robot.enter (msg) ->
     registerMessageActivity(msg, "entering")
 
@@ -83,7 +82,7 @@ module.exports = (robot) ->
 
       activity = latestActivity(sender(msg).room, name)
       if activity?
-        subject ||= "#{activity.name} was"
+        subject ?= "#{activity.name} was"
         msg.reply("#{subject} last seen #{activity.action} this room #{elapsedTimeInWords(activity.when)} ago")
       else
         msg.reply("Sorry, I don't know anything about #{name}")
