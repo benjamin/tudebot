@@ -17,7 +17,7 @@ class Game
     @wasAnswered() or @wasHung()
 
   wasAnswered: ->
-    @answerLetters.indexOf("_") == -1
+    "_" in @answerLetters
 
   wasHung: ->
     @remainingGuesses == 0
@@ -29,7 +29,7 @@ class Game
 
     guess = guess.trim().toUpperCase()
 
-    if @previousGuesses.indexOf(guess) != -1
+    if guess in @previousGuesses
       @duplicateGuess(guess)
     else
       @previousGuesses.push(guess)
