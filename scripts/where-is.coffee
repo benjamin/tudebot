@@ -59,6 +59,9 @@ module.exports = (robot) ->
 
   robot.brain.on "loaded", (data) ->
     data.whereis ?= {}
+    for room, activities of data.whereis
+      for name, activity of activities
+        activity.when = new Date(activity.when)
 
   robot.enter (msg) ->
     registerMessageActivity(msg, "entering")
