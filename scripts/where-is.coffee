@@ -75,7 +75,7 @@ module.exports = (robot) ->
 
     if isRobot(name)
       registerRhetoricalQuestionActivity(msg)
-      msg.reply "I was last seen answering rhetorical questions in this room less than a minute ago"
+      msg.reply("I was last seen answering rhetorical questions in this room less than a minute ago")
     else
       if isSenderOf(name, msg)
         registerRhetoricalQuestionActivity(msg)
@@ -84,6 +84,6 @@ module.exports = (robot) ->
       activity = latestActivity(sender(msg).room, name)
       if activity?
         subject ||= "#{activity.name} was"
-        msg.reply "#{subject} last seen #{activity.action} this room #{elapsedTimeInWords(activity.when)} ago"
+        msg.reply("#{subject} last seen #{activity.action} this room #{elapsedTimeInWords(activity.when)} ago")
       else
-        msg.reply "Sorry, I don't know anything about #{name}"
+        msg.reply("Sorry, I don't know anything about #{name}")
