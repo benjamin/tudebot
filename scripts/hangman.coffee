@@ -17,7 +17,7 @@ class Game
     @wasAnswered() or @wasHung()
 
   wasAnswered: ->
-    "_" in @answerLetters
+    "_" not in @answerLetters
 
   wasHung: ->
     @remainingGuesses == 0
