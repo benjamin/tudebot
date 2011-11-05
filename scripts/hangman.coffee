@@ -1,6 +1,7 @@
 # The game of hangman.
 #
-# hangman <letterOrWord> - Make a guess
+# hangman <letterOrWord> - Make a guess, or leave off the guess to see the current game.
+
 class Game
 
   constructor: (word) ->

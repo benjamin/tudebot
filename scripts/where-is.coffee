@@ -1,3 +1,7 @@
+# Tracks users so you know what they're up to, sort of.
+#
+# where is <name> - Display the most recent activity for the named user.
+
 module.exports = (robot) ->
 
   sender = (msg) ->

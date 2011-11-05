@@ -7,4 +7,3 @@
 module.exports = (robot) ->
   robot.respond /help$/i, (msg) ->
     msg.send robot.helpCommands().join("\n")
-

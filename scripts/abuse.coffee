@@ -1,3 +1,7 @@
+# Because it's so much fun
+#
+# abuse <name> - Abuse a friend.
+
 nameOf = (subject, robot, msg) ->
   switch subject.toLowerCase()
     when "me", "i" then msg.message.user.name
