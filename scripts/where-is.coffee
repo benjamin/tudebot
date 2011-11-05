@@ -1,38 +1,47 @@
-# Tracks users so you know what they're up to, sort of.
-#
-# where is <name> - Display the most recent activity for the named user.
+class Tracker
 
-module.exports = (robot) ->
+  constructor: (@robot, @sender) ->
+    @activities = @robot.brain.data.whereis[@sender.room] ?= {}
 
-  sender = (msg) ->
-    msg.message.user
+  isRobot: (name = @sender.name) ->
+    name.toLowerCase() == @robot.name.toLowerCase()
 
-  isSameName = (a, b) ->
-    a.toLowerCase() == b.toLowerCase()
+  isSender: (name) ->
+    name.toLowerCase() == @sender.name.toLowerCase()
 
-  isRobot = (name) ->
-    isSameName(name, robot.name)
+  recordActivity: (action) ->
+    @activities[@sender.name.toLowerCase()] = {name: @sender.name, action: action, when: new Date()} unless @isRobot()
 
-  isSenderOf = (name, msg) ->
-    isSameName(name, sender(msg).name) or isSameName(name, "I") or isSameName(name, "me")
+  recordRhetoricalQuestion: ->
+    @recordActivity("asking rhetorical questions in")
 
-  roomActivity = (room) ->
-    robot.brain.data.whereis[room] ?= {}
+  latestActivityOf: (name) ->
+    @activities[name.toLowerCase()]
 
-  registerActivity = (room, name, action) ->
-    roomActivity(room)[name.toLowerCase()] = {name: name, action: action, when: new Date()} unless isRobot(name)
+  nameFor: (nameOrPronoun) ->
+    switch nameOrPronoun.toLowerCase()
+      when "i", "me" then @sender.name
+      when "you", "yourself" then @robot.name
+      else nameOrPronoun
 
-  registerMessageActivity = (msg, action) ->
-    user = sender(msg)
-    registerActivity(user.room, user.name, action)
+  locationOf: (nameOrPronoun) ->
+    name = @nameFor(nameOrPronoun)
+    if @isRobot(name)
+      @recordRhetoricalQuestion()
+      "I was last seen answering rhetorical questions in this room less than a minute ago"
+    else
+      if @isSender(name)
+        @recordRhetoricalQuestion()
+        subject = "You were"
 
-  registerRhetoricalQuestionActivity = (msg) ->
-    registerMessageActivity(msg, "asking rhetorical questions in")
+      activity = @latestActivityOf(name)
+      if activity?
+        subject ?= "#{activity.name} was"
+        "#{subject} last seen #{activity.action} this room #{@elapsedTimeInWords(activity.when)} ago"
+      else
+        "Sorry, I don't know anything about #{name}"
 
-  latestActivity = (room, name) ->
-    roomActivity(room)[name.toLowerCase()]
-
-  elapsedMinutesInWords = (minutes) ->
+  elapsedMinutesInWords: (minutes) ->
     if minutes == 0
       "less than a minute"
     else if minutes == 1
@@ -56,10 +65,15 @@ module.exports = (robot) ->
     else
       "over #{Math.round(minutes / 525600)} years"
 
-  elapsedTimeInWords = (date) ->
+  elapsedTimeInWords: (date) ->
     milliseconds = new Date() - date
     minutes = Math.round(Math.abs(milliseconds / 60000))
-    elapsedMinutesInWords(minutes)
+    @elapsedMinutesInWords(minutes)
+
+module.exports = (robot) ->
+
+  withTracker = (callback) -> (msg) ->
+    callback(msg, new Tracker(robot, msg.message.user))
 
   robot.brain.on "loaded", (data) ->
     data.whereis ?= {}
@@ -67,29 +81,14 @@ module.exports = (robot) ->
       for name, activity of activities
         activity.when = new Date(activity.when)
 
-  robot.enter (msg) ->
-    registerMessageActivity(msg, "entering")
+  robot.enter withTracker (msg, tracker) ->
+    tracker.recordActivity("entering")
 
-  robot.leave (msg) ->
-    registerMessageActivity(msg, "leaving")
+  robot.leave withTracker (msg, tracker) ->
+    tracker.recordActivity("leaving")
 
-  robot.hear /.*/, (msg) ->
-    registerMessageActivity(msg, "posting to")
+  robot.hear /.*/, withTracker (msg, tracker) ->
+    tracker.recordActivity("posting to")
 
-  robot.respond /where(?:'?s| ?is| ?am) ([^?]+)\??$/i, (msg) ->
-    name = msg.match[1].trim()
-
-    if isRobot(name)
-      registerRhetoricalQuestionActivity(msg)
-      msg.reply("I was last seen answering rhetorical questions in this room less than a minute ago")
-    else
-      if isSenderOf(name, msg)
-        registerRhetoricalQuestionActivity(msg)
-        subject = "You were"
-
-      activity = latestActivity(sender(msg).room, name)
-      if activity?
-        subject ?= "#{activity.name} was"
-        msg.reply("#{subject} last seen #{activity.action} this room #{elapsedTimeInWords(activity.when)} ago")
-      else
-        msg.reply("Sorry, I don't know anything about #{name}")
+  robot.respond /where(?:'?s| ?is| am| are) ([^?]+)\??$/i, withTracker (msg, tracker) ->
+    msg.reply(tracker.locationOf(msg.match[1].trim()))
