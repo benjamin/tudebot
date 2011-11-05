@@ -36,7 +36,7 @@ module.exports = (robot) ->
       name = nameOf(msg.match[1], robot, msg)
       switch name
         when robot.name then msg.reply "Enough about me, let's talk about you. You're #{phrasePrefixedWithIndefiniteArticle(phrase)}"
-        when msg.message.user.name then msg.reply "You'ree #{phrasePrefixedWithIndefiniteArticle(phrase)}"
+        when msg.message.user.name then msg.reply "You're #{phrasePrefixedWithIndefiniteArticle(phrase)}"
         else msg.reply "#{name} is #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
   robot.respond /sudo .*/i, (msg) ->
