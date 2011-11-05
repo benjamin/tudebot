@@ -37,7 +37,7 @@ module.exports = (robot) ->
       switch name
         when robot.name then msg.reply "I am "
         when msg.message.user.name then msg.reply "You are #{phrasePrefixedWithIndefiniteArticle(phrase)}"
-        else msg.send "#{name} is #{phrasePrefixedWithIndefiniteArticle(phrase)}"
+        else msg.reply "#{name} is #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
   robot.respond /sudo .*/i, (msg) ->
     insult msg, (phrase) ->
