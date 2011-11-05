@@ -1,6 +1,6 @@
 # Because it's so much fun
 #
-# abuse <name> - Abuse a friend.
+# abuse <name> - Abuse someone, for fun and profit.
 
 nameOf = (subject, robot, msg) ->
   switch subject.toLowerCase()

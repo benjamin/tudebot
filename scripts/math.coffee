@@ -2,7 +2,9 @@
 #
 # math me <expression> - Calculate the given expression.
 # convert me <expression> to <units> - Convert expression to given units.
+
 module.exports = (robot) ->
+
   robot.respond /(calc|calculate|convert|math)( me)? (.*)/i, (msg) ->
     msg
       .http('http://www.google.com/ig/calculator')

@@ -1,6 +1,6 @@
 # Returns a random fakt
 #
-# fakt me - Returns a random fakt. Great conversation starters!
+# fakt me - Returns a random fact. Great conversation starters!
 
 module.exports = (robot) ->
   robot.respond /(fakt)( me)?/i, (msg) ->
