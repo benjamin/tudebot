@@ -55,7 +55,7 @@ module.exports = (robot) ->
         when msg.message.user.name then msg.reply "What kind of #{phrase} tries to abuse themselves?"
         else msg.send "#{name}: You are #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
-  robot.respond /(?:you(?:'?re?)?|is) /i, (msg) ->
+  robot.respond /(?:I think )?(?:you(?:'?re?)?|is) /i, (msg) ->
     insult msg, (phrase) ->
       msg.reply "And you're #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
