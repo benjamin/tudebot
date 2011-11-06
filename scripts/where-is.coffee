@@ -42,7 +42,6 @@ class Tracker
         "Sorry, I don't know anything about #{name}"
 
   elapsedMinutesInWords: (minutes) ->
-    switch minutes
     if minutes == 0
       "less than a minute"
     else if minutes == 1
