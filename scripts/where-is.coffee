@@ -9,11 +9,11 @@ class Tracker
   isSender: (name) ->
     name.toLowerCase() == @sender.name.toLowerCase()
 
-  recordActivity: (action) ->
+  senderIs: (action) ->
     @activities[@sender.name.toLowerCase()] = {name: @sender.name, action: action, when: new Date()} unless @isRobot()
 
   recordRhetoricalQuestion: ->
-    @recordActivity("asking rhetorical questions in")
+    @senderIs("asking rhetorical questions in")
 
   latestActivityOf: (name) ->
     @activities[name.toLowerCase()]
@@ -24,7 +24,7 @@ class Tracker
       when "you", "yourself" then @robot.name
       else nameOrPronoun
 
-  locationOf: (nameOrPronoun) ->
+  whereIs: (nameOrPronoun) ->
     name = @nameFor(nameOrPronoun)
     if @isRobot(name)
       @recordRhetoricalQuestion()
@@ -82,13 +82,13 @@ module.exports = (robot) ->
         activity.when = new Date(activity.when)
 
   robot.enter withTracker (msg, tracker) ->
-    tracker.recordActivity("entering")
+    tracker.senderIs("entering")
 
   robot.leave withTracker (msg, tracker) ->
-    tracker.recordActivity("leaving")
+    tracker.senderIs("leaving")
 
   robot.hear /.*/, withTracker (msg, tracker) ->
-    tracker.recordActivity("posting to")
+    tracker.senderIs("posting to")
 
   robot.respond /where(?:'?s| ?is| am| are) ([^?]+)\??$/i, withTracker (msg, tracker) ->
-    msg.reply(tracker.locationOf(msg.match[1].trim()))
+    msg.reply(tracker.whereIs(msg.match[1].trim()))
