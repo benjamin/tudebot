@@ -1,22 +1,22 @@
 class Tracker
 
   constructor: (@robot, @sender) ->
-    @activities = @robot.brain.data.whereis[@sender.room] ?= {}
+    @sightings = @robot.brain.data.whereis[@sender.room] ?= {}
 
-  isRobot: (name = @sender.name) ->
+  isRobot: (name) ->
     name.toLowerCase() == @robot.name.toLowerCase()
 
   isSender: (name) ->
     name.toLowerCase() == @sender.name.toLowerCase()
 
-  senderIs: (action) ->
-    @activities[@sender.name.toLowerCase()] = {name: @sender.name, action: action, when: new Date()} unless @isRobot()
+  senderWasSeen: (action) ->
+    @sightings[@sender.name.toLowerCase()] = {name: @sender.name, action: action, when: new Date()} unless @isRobot(@sender.name)
 
-  recordRhetoricalQuestion: ->
-    @senderIs("asking rhetorical questions in")
+  senderWasSeenAskingRhetoricalQuestions: ->
+    @senderWasSeen("asking rhetorical questions in")
 
-  latestActivityOf: (name) ->
-    @activities[name.toLowerCase()]
+  latestSightingOf: (name) ->
+    @sightings[name.toLowerCase()]
 
   nameFor: (nameOrPronoun) ->
     switch nameOrPronoun.toLowerCase()
@@ -27,17 +27,17 @@ class Tracker
   whereIs: (nameOrPronoun) ->
     name = @nameFor(nameOrPronoun)
     if @isRobot(name)
-      @recordRhetoricalQuestion()
+      @senderWasSeenAskingRhetoricalQuestions()
       "I was last seen answering rhetorical questions in this room less than a minute ago"
     else
       if @isSender(name)
-        @recordRhetoricalQuestion()
+        @senderWasSeenAskingRhetoricalQuestions()
         subject = "You were"
 
-      activity = @latestActivityOf(name)
-      if activity?
-        subject ?= "#{activity.name} was"
-        "#{subject} last seen #{activity.action} this room #{@elapsedTimeInWords(activity.when)} ago"
+      sighting = @latestSightingOf(name)
+      if sighting?
+        subject ?= "#{sighting.name} was"
+        "#{subject} last seen #{sighting.action} this room #{@elapsedTimeInWords(sighting.when)} ago"
       else
         "Sorry, I don't know anything about #{name}"
 
@@ -77,18 +77,18 @@ module.exports = (robot) ->
 
   robot.brain.on "loaded", (data) ->
     data.whereis ?= {}
-    for room, activities of data.whereis
-      for name, activity of activities
-        activity.when = new Date(activity.when)
+    for room, sightings of data.whereis
+      for name, sighting of sightings
+        sighting.when = new Date(sighting.when)
 
   robot.enter withTracker (msg, tracker) ->
-    tracker.senderIs("entering")
+    tracker.senderWasSeen("entering")
 
   robot.leave withTracker (msg, tracker) ->
-    tracker.senderIs("leaving")
+    tracker.senderWasSeen("leaving")
 
   robot.hear /.*/, withTracker (msg, tracker) ->
-    tracker.senderIs("posting to")
+    tracker.senderWasSeen("posting to")
 
   robot.respond /where(?:'?s| ?is| am| are) ([^?]+)\??$/i, withTracker (msg, tracker) ->
     msg.reply(tracker.whereIs(msg.match[1].trim()))
