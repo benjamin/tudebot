@@ -15,7 +15,7 @@ class Tracker
   senderWasSeenAskingRhetoricalQuestions: ->
     @senderWasSeen("asking rhetorical questions in")
 
-  latestSightingOf: (name) ->
+  lastSightingOf: (name) ->
     @sightings[name.toLowerCase()]
 
   nameFor: (nameOrPronoun) ->
@@ -34,7 +34,7 @@ class Tracker
         @senderWasSeenAskingRhetoricalQuestions()
         subject = "You were"
 
-      sighting = @latestSightingOf(name)
+      sighting = @lastSightingOf(name)
       if sighting?
         subject ?= "#{sighting.name} was"
         "#{subject} last seen #{sighting.action} this room #{@elapsedTimeInWords(sighting.when)} ago"
@@ -42,6 +42,7 @@ class Tracker
         "Sorry, I don't know anything about #{name}"
 
   elapsedMinutesInWords: (minutes) ->
+    switch minutes
     if minutes == 0
       "less than a minute"
     else if minutes == 1
