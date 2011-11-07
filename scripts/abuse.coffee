@@ -35,7 +35,7 @@ insult = (msg, callback) ->
 
 module.exports = (robot) ->
 
-  robot.respond /what do you think (?:of|about) ([^?]+)\??$/i, (msg) ->
+  robot.respond /what (?:do|did) you think (?:of|about) ([^?]+)\??$/i, (msg) ->
     insult msg, (phrase) ->
       name = nameOf(msg.match[1], robot, msg)
       switch name
