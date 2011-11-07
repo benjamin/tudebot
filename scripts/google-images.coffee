@@ -7,9 +7,7 @@
 # mustache me <url>   - Adds a mustache to the specified URL.
 # mustache me <query> - Searches Google Images for the specified query and
 #                       mustaches it.
-
 module.exports = (robot) ->
-
   robot.respond /(image|img)( me)? (.*)/i, (msg) ->
     imageMe msg, msg.match[3], (url) ->
       msg.send url
@@ -36,4 +34,5 @@ imageMe = (msg, query, cb) ->
       images = JSON.parse(body)
       images = images.responseData.results
       image  = msg.random images
-      cb googlimage.unescapedUrl
+      cb "#{image.unescapedUrl}#.png"
+
