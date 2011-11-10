@@ -47,12 +47,12 @@ module.exports = (robot) ->
     insult msg, (phrase) ->
       msg.reply "Nice try, you #{phrase}"
 
-  robot.respond /(?:abuse|insult) (.+)$/i, (msg) ->
+  robot.respond /(abuse|insult|mock) (.+)$/i, (msg) ->
     insult msg, (phrase) ->
-      name = nameOf(msg.match[1], robot, msg)
+      name = nameOf(msg.match[2], robot, msg)
       switch name
         when robot.name then msg.reply "Nice try, you #{phrase}"
-        when msg.message.user.name then msg.reply "What kind of #{phrase} tries to abuse themselves?"
+        when msg.message.user.name then msg.reply "What kind of #{phrase} tries to #{msg.match[1]} themselves?"
         else msg.send "#{name}: You are #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
   robot.respond /(?:I think )?(?:you(?:'?re?)?|is) /i, (msg) ->
