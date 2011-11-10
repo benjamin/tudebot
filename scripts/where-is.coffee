@@ -28,7 +28,7 @@ class Tracker
     name = @nameFor(nameOrPronoun)
     if @isRobot(name)
       @senderWasSeenAskingRhetoricalQuestions()
-      "I was last seen answering rhetorical questions in this room less than a minute ago"
+      "I was last seen answering rhetorical questions in this room just now"
     else
       if @isSender(name)
         @senderWasSeenAskingRhetoricalQuestions()
@@ -37,38 +37,38 @@ class Tracker
       sighting = @lastSightingOf(name)
       if sighting?
         subject ?= "#{sighting.name} was"
-        "#{subject} last seen #{sighting.action} this room #{@elapsedTimeInWords(sighting.when)} ago"
+        "#{subject} last seen #{sighting.action} this room #{@timeAgoInWords(sighting.when)}"
       else
         "Sorry, I don't know anything about #{name}"
 
-  elapsedMinutesInWords: (minutes) ->
+  minutesAgoInWords: (minutes) ->
     if minutes == 0
-      "less than a minute"
+      "just now"
     else if minutes == 1
-      "1 minute";
+      "1 minute ago";
     else if minutes < 45
-      "#{minutes} minutes"
+      "#{minutes} minutes ago"
     else if minutes < 90
-      "about 1 hour"
+      "about 1 hour ago"
     else if minutes < 1440
-      "about #{Math.round(minutes / 60)} hours"
+      "about #{Math.round(minutes / 60)} hours ago"
     else if minutes < 2160
-      "about 1 day"
+      "about 1 day ago"
     else if minutes < 43200
-      "#{Math.round(minutes / 1440)} days"
+      "#{Math.round(minutes / 1440)} days ago"
     else if minutes < 86400
-      "about 1 month"
+      "about 1 month ago"
     else if minutes < 525600
-      "#{Math.round(minutes / 43200)} months"
+      "#{Math.round(minutes / 43200)} months ago"
     else if minutes < 1051200
-      "about 1 year"
+      "about 1 year ago"
     else
-      "over #{Math.round(minutes / 525600)} years"
+      "over #{Math.round(minutes / 525600)} years ago"
 
-  elapsedTimeInWords: (date) ->
+  timeAgoInWords: (date) ->
     milliseconds = new Date() - date
     minutes = Math.round(Math.abs(milliseconds / 60000))
-    @elapsedMinutesInWords(minutes)
+    @minutesAgoInWords(minutes)
 
 module.exports = (robot) ->
 
