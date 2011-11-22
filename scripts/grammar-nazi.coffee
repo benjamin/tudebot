@@ -15,7 +15,7 @@ module.exports = (robot) ->
   robot.hear /(it's|they'?re) .* (?:was|is|has)/i, (msg) ->
     msg.reply itsOrTheir(msg.match[1])
 
-  robot.hear /(its|their) (?:not|been|too)/i, (msg) ->
+  robot.hear /(its|their) (?:so|not|been|too)/i, (msg) ->
     msg.reply itIsOrTheyAre(msg.match[1])
 
 itsOrTheir = (word) ->
