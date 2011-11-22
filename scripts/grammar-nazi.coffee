@@ -4,4 +4,7 @@ module.exports = (robot) ->
     msg.reply "were"
 
   robot.hear /((hence|reason) why)/i, (msg) ->
-    msg.reply "#{msg.match[1]}, seriously?"
+    msg.reply "Tautological, much?"
+
+  robot.hear /its' /i, (msg) ->
+    msg.reply "There is absolutely, positively, no such word as its'."
