@@ -12,5 +12,8 @@ module.exports = (robot) ->
   robot.hear /(not|that('?s| is)) it's/i, (msg) ->
     msg.reply "its"
 
-  robot.hear /its been/i, (msg) ->
+  robot.hear /it's .* (was|is|has)/i, (msg) ->
+    msg.reply "its"
+
+  robot.hear /its (been|too)/i, (msg) ->
     msg.reply "it's"
