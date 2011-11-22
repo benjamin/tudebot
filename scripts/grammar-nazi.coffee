@@ -9,11 +9,21 @@ module.exports = (robot) ->
   robot.hear /its' /i, (msg) ->
     msg.reply "There is absolutely, positively, no such word as its'."
 
-  robot.hear /(for|not|that('?s| is)) it's/i, (msg) ->
-    msg.reply "its"
+  robot.hear /(?:for|not|that(?:'?s| is)) (it's|they'?re)/i, (msg) ->
+    msg.reply itsOrTheir(msg.match[1])
 
-  robot.hear /it's .* (was|is|has)/i, (msg) ->
-    msg.reply "its"
+  robot.hear /(it's|they'?re) .* (?:was|is|has)/i, (msg) ->
+    msg.reply itsOrTheir(msg.match[1])
 
-  robot.hear /its (not|been|too)/i, (msg) ->
-    msg.reply "it's"
+  robot.hear /(its|their) (?:not|been|too)/i, (msg) ->
+    msg.reply itIsOrTheyAre(msg.match[1])
+
+itsOrTheir = (word) ->
+  switch word.toLowerCase()
+    when "it's" then "its"
+    else "their"
+
+itIsOrTheyAre = (word) ->
+  switch word.toLowerCase()
+    when "its" then "it's"
+    else "they're"
