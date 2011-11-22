@@ -9,7 +9,7 @@ module.exports = (robot) ->
   robot.hear /its' /i, (msg) ->
     msg.reply "There is absolutely, positively, no such word as its'."
 
-  robot.hear /(not|that('?s| is)) it's/i, (msg) ->
+  robot.hear /(for|not|that('?s| is)) it's/i, (msg) ->
     msg.reply "its"
 
   robot.hear /it's .* (was|is|has)/i, (msg) ->
