@@ -15,5 +15,5 @@ module.exports = (robot) ->
   robot.hear /it's .* (was|is|has)/i, (msg) ->
     msg.reply "its"
 
-  robot.hear /its (been|too)/i, (msg) ->
+  robot.hear /its (not|been|too)/i, (msg) ->
     msg.reply "it's"
