@@ -76,7 +76,7 @@ class Game
       if @wasHung()
         callback "You have no remaining guesses"
       else if @wasAnswered()
-      callback "Congratulations, you still had #{pluralisedGuess(@remainingGuesses)} remaining!"
+        callback "Congratulations, you still had #{pluralisedGuess(@remainingGuesses)} remaining!"
 
       callback "The #{@wordLetters.length} letter word was: #{@wordLetters.join(' ')}"
     else
