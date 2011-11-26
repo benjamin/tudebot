@@ -35,7 +35,7 @@ class Game
       @previousGuesses.push(guess)
       switch guess.length
         when 1 then @guessLetter(guess)
-        when @word.length @guessWord(guess)
+        when @word.length then @guessWord(guess)
         else @errantWordGuess(guess)
 
   guessLetter: (guess) ->
