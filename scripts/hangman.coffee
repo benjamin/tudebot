@@ -5,7 +5,7 @@
 
 class Game
 
-  constructor: (word) ->
+  constructor: (word, @definitions) ->
     @word = word.toUpperCase()
     @wordLetters = @word.split(//)
     @answerLetters = ("_" for letter in @wordLetters)
@@ -14,7 +14,7 @@ class Game
     @message = null
 
   isFinished: ->
-    @wasAnswered() or @wasHung()
+    this.wasAnswered() or this.wasHung()
 
   wasAnswered: ->
     "_" not in @answerLetters
@@ -24,34 +24,34 @@ class Game
 
   guess: (guess) ->
     if !guess
-      @noGuess()
+      this.noGuess()
       return
 
     guess = guess.trim().toUpperCase()
 
     if guess in @previousGuesses
-      @duplicateGuess(guess)
+      this.duplicateGuess(guess)
     else
       @previousGuesses.push(guess)
       switch guess.length
-        when 1 then @guessLetter(guess)
-        when @word.length then @guessWord(guess)
-        else @errantWordGuess(guess)
+        when 1 then this.guessLetter(guess)
+        when @word.length then this.guessWord(guess)
+        else this.errantWordGuess(guess)
 
   guessLetter: (guess) ->
     indexes = (index for letter, index in @wordLetters when guess == letter)
     if indexes.length > 0
       @answerLetters[index] = @wordLetters[index] for index in indexes
-      @correctGuess("Yes, there #{isOrAre(indexes.length, guess)}")
+      this.correctGuess("Yes, there #{isOrAre(indexes.length, guess)}")
     else
-      @incorrectGuess("Sorry, there are no #{guess}'s")
+      this.incorrectGuess("Sorry, there are no #{guess}'s")
 
   guessWord: (guess) ->
     if guess == @word
       @answerLetters = @wordLetters
-      @correctGuess("Yes, that's correct")
+      this.correctGuess("Yes, that's correct")
     else
-      @incorrectGuess("Sorry, the word is not #{guess}")
+      this.incorrectGuess("Sorry, the word is not #{guess}")
 
   noGuess: ->
     @message = null
@@ -70,18 +70,19 @@ class Game
     @message = message
 
   eachMessage: (callback) ->
-    callback @message if @message
+    callback(@message) if @message
 
-    if @isFinished()
-      if @wasHung()
-        callback "You have no remaining guesses"
-      else if @wasAnswered()
-        callback "Congratulations, you still had #{pluralisedGuess(@remainingGuesses)} remaining!"
+    if this.isFinished()
+      if this.wasHung()
+        callback("You have no remaining guesses")
+      else if this.wasAnswered()
+        callback("Congratulations, you still had #{pluralisedGuess(@remainingGuesses)} remaining!")
 
-      callback "The #{@wordLetters.length} letter word was: #{@wordLetters.join(' ')}"
+      callback("The #{@wordLetters.length} letter word was: #{@word}")
+      callback(@definitions)
     else
-      callback "The #{@answerLetters.length} letter word is: #{@answerLetters.join(' ')}"
-      callback "You have #{pluralisedGuess(@remainingGuesses)} remaining"
+      callback("The #{@answerLetters.length} letter word is: #{@answerLetters.join(' ')}")
+      callback("You have #{pluralisedGuess(@remainingGuesses)} remaining")
 
 module.exports = (robot) ->
   gamesByRoom = {}
@@ -89,7 +90,7 @@ module.exports = (robot) ->
   robot.respond /hangman( .*)?$/i, (msg) ->
 
     if process.env.WORDNIK_API_KEY == undefined
-      msg.send "Missing WORDNIK_API_KEY env variable."
+      msg.send("Missing WORDNIK_API_KEY env variable.")
       return
 
     room = msg.message.user.room
@@ -101,9 +102,9 @@ module.exports = (robot) ->
 
 play = (msg, game, callback) ->
   if !game or game.isFinished()
-    generateWord msg, (word) -> callback new Game(word)
+    generateWord msg, (word, definitions) -> callback new Game(word, definitions)
   else
-    callback game
+    callback(game)
 
 generateWord = (msg, callback) ->
   msg.http("http://api.wordnik.com/v4/words.json/randomWord")
@@ -115,10 +116,37 @@ generateWord = (msg, callback) ->
       api_key: process.env.WORDNIK_API_KEY
     .get() (err, res, body) ->
       result = JSON.parse(body)
-      if result
-        callback result.word
+      word = if result
+        result.word
       else
-        callback "hangman"
+        "hangman"
+
+      defineWord(msg, word, callback)
+
+defineWord = (msg, word, callback) ->
+  msg.http("http://api.wordnik.com/v4/word.json/#{escape(word)}/definitions")
+    .header("api_key", process.env.WORDNIK_API_KEY)
+    .get() (err, res, body) ->
+      definitions = JSON.parse(body)
+
+      if definitions.length == 0
+        callback(word, "No definitions found.")
+      else
+        reply = ""
+        lastSpeechType = null
+
+        definitions = definitions.forEach (def) ->
+          # Show the part of speech (noun, verb, etc.) when it changes
+          if def.partOfSpeech != lastSpeechType
+            reply += " (#{def.partOfSpeech})\n" if def.partOfSpeech != undefined
+
+          # Track the part of speech
+          lastSpeechType = def.partOfSpeech
+
+          # Add the definition
+          reply += "  - #{def.text}\n"
+
+        callback(word, reply)
 
 isOrAre = (count, letter) ->
   if count == 1
