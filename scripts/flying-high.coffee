@@ -1,7 +1,7 @@
 module.exports = (robot) ->
 
   robot.hear /surely you/i, (msg) ->
-    msg.reply "I am serious, and don't call me Shirley."
+    msg.reply "I am, and don't call me Shirley."
 
   robot.hear /I can'?t .* tell/i, (msg) ->
     msg.reply "You can tell me. I'm a doctor."
