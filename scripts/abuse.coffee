@@ -52,7 +52,7 @@ module.exports = (robot) ->
       name = nameOf(msg.match[2], robot, msg)
       switch name
         when robot.name then msg.reply "Nice try, you #{phrase}"
-        when msg.message.user.name then msg.reply "What kind of #{phrase} tries to #{msg.match[1]} themselves?"
+        when msg.message.user.name then msg.reply "What kind of #{phrase} tries to #{msg.match[1].toLowerCase()} themselves?"
         else msg.send "#{name}: You are #{phrasePrefixedWithIndefiniteArticle(phrase)}"
 
   robot.respond /(?:I think )?(?:you(?:'?re?)?|is) /i, (msg) ->
@@ -61,4 +61,4 @@ module.exports = (robot) ->
 
   robot.respond /((?:get|fuck|suck|blow|lick|poke|eat|make|do|give|take|ride|go|.* your|keep|why) (?:.*))/i, (msg) ->
     insult msg, (phrase) ->
-      msg.reply "No, #{personalizedPhrase(msg.match[1])}, you #{phrase}"
+      msg.reply "No, #{personalizedPhrase(msg.match[1].toLowerCase())}, you #{phrase}"
