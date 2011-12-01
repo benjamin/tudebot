@@ -50,6 +50,8 @@ module.exports = (robot) ->
   robot.respond /(abuse|insult|mock) (.+)$/i, (msg) ->
     insult msg, (phrase) ->
       name = nameOf(msg.match[2], robot, msg)
+      msg.send name
+      msg.send robot.name
       switch name
         when robot.name then msg.reply "Nice try, you #{phrase}"
         when msg.message.user.name then msg.reply "What kind of #{phrase} tries to #{msg.match[1].toLowerCase()} themselves?"
