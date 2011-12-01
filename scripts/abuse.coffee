@@ -5,7 +5,7 @@
 nameOf = (subject, robot, msg) ->
   switch subject.toLowerCase()
     when "me", "i" then msg.message.user.name
-    when "yourself" then robot.name
+    when "yourself", robot.name.toLowerCase() then robot.name
     when msg.message.user.name.toLowerCase() then msg.message.user.name
     else subject.trim()
 
