@@ -3,11 +3,12 @@
 # abuse <name> - Abuse someone, for fun and profit.
 
 nameOf = (subject, robot, msg) ->
+  subject = subject.trim()
   switch subject.toLowerCase()
     when "me", "i" then msg.message.user.name
     when "yourself", robot.name.toLowerCase() then robot.name
     when msg.message.user.name.toLowerCase() then msg.message.user.name
-    else subject.trim()
+    else subject
 
 phrasePrefixedWithIndefiniteArticle = (phrase) ->
   if phrase.match /^h?[aeiou]/i
@@ -50,8 +51,6 @@ module.exports = (robot) ->
   robot.respond /(abuse|insult|mock) (.+)$/i, (msg) ->
     insult msg, (phrase) ->
       name = nameOf(msg.match[2], robot, msg)
-      msg.send name
-      msg.send robot.name
       switch name
         when robot.name then msg.reply "Nice try, you #{phrase}"
         when msg.message.user.name then msg.reply "What kind of #{phrase} tries to #{msg.match[1].toLowerCase()} themselves?"
