@@ -2,6 +2,15 @@
 #
 # abuse <name> - Abuse someone, for fun and profit.
 
+welcomes = [
+  "Welcome",
+  "Thanks for turning up",
+  "Decided to make the effort hey",
+  "G'day",
+  "Fuck you",
+  "Fuck off"
+]
+
 nameOf = (subject, robot, msg) ->
   subject = subject.trim()
   switch subject.toLowerCase()
@@ -35,6 +44,10 @@ insult = (msg, callback) ->
         callback body
 
 module.exports = (robot) ->
+
+  robot.enter (msg) ->
+    insult msg, (phrase) ->
+      msg.reply "#{msg.random welcomes}, you #{phrase}"
 
   robot.respond /what (?:do|did) you think (?:of|about) ([^?]+)\??$/i, (msg) ->
     insult msg, (phrase) ->
