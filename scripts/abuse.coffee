@@ -3,7 +3,7 @@
 # abuse <name> - Abuse someone, for fun and profit.
 
 welcomes = [
-  "Welcome",
+  "Welcome back",
   "Thanks for turning up",
   "Decided to make the effort hey",
   "G'day",
