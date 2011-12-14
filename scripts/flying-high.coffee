@@ -1,6 +1,7 @@
 acknowledgements = [
   "Roger that!",
-  "What's our vector, Victor?"
+  "What's our vector, Victor?",
+  "Unger."
 ]
 
 module.exports = (robot) ->
