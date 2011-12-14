@@ -11,3 +11,9 @@ module.exports = (robot) ->
 
   robot.hear /hospital\?/i, (msg) ->
     msg.reply "It's a big building with patients, but that's not important right now."
+
+  robot.hear /^OVER$/, (msg) ->
+    msg.reply "ROGER"
+
+  robot.hear /^roger that$/i, (msg) ->
+    msg.reply "What's our vector, Victor?"
