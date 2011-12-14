@@ -1,3 +1,8 @@
+acknowledgements = [
+  "Roger that!",
+  "What's our vector, Victor?"
+]
+
 module.exports = (robot) ->
 
   robot.hear /surely you/i, (msg) ->
@@ -15,5 +20,5 @@ module.exports = (robot) ->
   robot.hear /OVER/, (msg) ->
     msg.reply "ROGER"
 
-  robot.hear /^roger that$/i, (msg) ->
-    msg.reply "What's our vector, Victor?"
+  robot.hear /roger that/i, (msg) ->
+    msg.reply msg.random acknowledgements
