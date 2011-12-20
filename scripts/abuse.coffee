@@ -49,7 +49,7 @@ module.exports = (robot) ->
     return if msg.message.user.name == robot.name
 
     insult msg, (phrase) ->
-      msg.reply "#{msg.random welcomes}, you #{phrase}"
+      msg.send "#{msg.random welcomes}, you #{phrase}"
 
   robot.respond /what (?:do|did) you think (?:of|about) ([^?]+)\??$/i, (msg) ->
     insult msg, (phrase) ->
