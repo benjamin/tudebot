@@ -17,7 +17,7 @@
   "dependencies": {
     "hubot-irc": ">= 0.0.6",
     "hubot": "https://github.com/benjamin/hubot/tarball/master",
-    "hubot-scripts": "2.0.4",
+    "hubot-scripts": "2.0.5",
     "optparse": "1.0.3"
   }
 }
