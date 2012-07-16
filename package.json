@@ -10,14 +10,14 @@
   }],
 
   "repository" : {
-    "type" : "git",
-    "url" : "http://github.com/benjamin/hubot.git"
+    "type": "git",
+    "url":  "https://github.com/github/hubot.git"
   },
 
   "dependencies": {
     "hubot-irc": ">= 0.0.8",
-    "hubot": ">= 2.3.0",
-    "hubot-scripts": ">=2.1.1",
+    "hubot": "2.3.0",
+    "hubot-scripts": ">= 2.1.0",
     "optparse": "1.0.3"
   },
 
