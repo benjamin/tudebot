@@ -5,5 +5,5 @@ cloud_pattern = /(^|\W)cloud(\W|$)/gi
 
 module.exports = (robot) ->
   robot.hear cloud_pattern, (msg) ->
-    msg.reply "#{msg.message.user.name}: I think you mean: #{msg.message.text.replace(cloud_pattern, clownify)}"
+    msg.reply "I think you mean: #{msg.message.text.replace(cloud_pattern, clownify)}"
 
