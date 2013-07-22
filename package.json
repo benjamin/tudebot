@@ -9,7 +9,7 @@
     "url":        "http://github.com/benjamin/hubot/raw/master/LICENSE"
   }],
 
-  "repository" : {
+  "repository": {
     "type": "git",
     "url": "https://github.com/github/hubot.git"
   },
@@ -18,7 +18,7 @@
     "hubot-irc": ">= 0.1.17",
     "hubot": ">= 2.6.0",
     "hubot-scripts": ">= 2.5.1",
-    "optparse":           "1.0.4",
+    "optparse": "1.0.4"
   },
 
   "engines": {
