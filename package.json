@@ -1,6 +1,6 @@
 {
   "name":        "hosted-hubot",
-  "version":     "2.3.2",
+  "version":     "2.6.2",
   "author":      "GitHub Inc.",
   "keywords":    "github hubot campfire bot",
   "description": "A simple helpful Robot for your Company",
@@ -11,18 +11,18 @@
 
   "repository" : {
     "type": "git",
-    "url":  "https://github.com/github/hubot.git"
+    "url": "https://github.com/github/hubot.git"
   },
 
   "dependencies": {
-    "hubot-irc": ">= 0.1.0",
-    "hubot": "2.3.2",
-    "hubot-scripts": ">= 2.1.1",
-    "optparse": "1.0.3"
+    "hubot-irc": ">= 0.1.17",
+    "hubot": ">= 2.6.0",
+    "hubot-scripts": ">= 2.5.1",
+    "optparse":           "1.0.4",
   },
 
   "engines": {
-    "node": "0.6.x",
-    "npm": "1.0.x"
+    "node": ">= 0.8.x",
+    "npm":  ">= 1.1.x"
   }
 }
