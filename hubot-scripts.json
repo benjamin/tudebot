@@ -1,5 +1,5 @@
 [ "eight-ball.coffee",
-  "redis-brain.coffee",
+  // "redis-brain.coffee",
   "remind.coffee",
   "polite.coffee",
   "wordnik.coffee",
