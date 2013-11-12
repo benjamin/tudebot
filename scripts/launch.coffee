@@ -1,9 +1,8 @@
 lunchify = (text) ->
-  text.replace('u', '').replace('U', '')
+  text.replace(/u/i, '')
 
-lunch_pattern = /(^|\W)launch(\W|$)/gi
+launch_pattern = /(^|\W)launch/gi
 
 module.exports = (robot) ->
-  robot.hear cloud_pattern, (msg) ->
+  robot.hear launch_pattern, (msg) ->
     msg.reply "I think you mean: #{msg.message.text.replace(launch_pattern, lunchify)}"
-
