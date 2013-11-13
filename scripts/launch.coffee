@@ -1,5 +1,5 @@
 lunchify = (text) ->
-  text.replace(/u/i, '')
+  text.replace(/a/i, '')
 
 launch_pattern = /(^|\W)launch/gi
 
