@@ -5,7 +5,7 @@ lunchify = (text) ->
   text.replace(/a/i, '')
 
 wangify = (text) ->
-  text.replace('g', 'd').replace('G', 'D')
+  text.replace('d', 'g').replace('D', 'G')
 
 cloud_pattern = /(?:^|\W)cloud/gi
 launch_pattern = /(?:^|\W)launch/gi
