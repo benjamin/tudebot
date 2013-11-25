@@ -1,4 +1,5 @@
-[ "eight-ball.coffee",
+[
+  "eight-ball.coffee",
   "remind.coffee",
   "polite.coffee",
   "wordnik.coffee",
@@ -12,6 +13,5 @@
   "eval.coffee",
   "look-of-disapproval.coffee",
   "abstract.coffee",
-  "tweet-content.coffee",
-  "youtube-info.coffee"
+  "tweet-content.coffee"
 ]
