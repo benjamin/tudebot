@@ -1,7 +1,8 @@
 class Tracker
 
   constructor: (@robot, @sender) ->
-    @sightings = @robot.brain.data.whereis[@sender.room] ?= {}
+    whereis = @robot.brain.data.whereis ?= {}
+    @sightings = whereis[@sender.room] ?= {}
 
   isRobot: (name) ->
     name.toLowerCase() == @robot.name.toLowerCase()
