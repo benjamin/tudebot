@@ -1,4 +1,4 @@
 module.exports = (robot) ->
 
-  robot.hear /happy place/i, (msg) ->
+  robot.hear /happy\s+place/i, (msg) ->
     msg.reply "http://i.imgur.com/tOzxz.jpg"
