@@ -11,6 +11,8 @@ welcomes = [
   "Fuck off"
 ]
 
+noMoreComplainingUntil = null
+
 nameOf = (subject, robot, msg) ->
   subject = subject.trim()
   switch subject.toLowerCase()
@@ -41,7 +43,10 @@ insult = (msg, callback) ->
       if matches
         callback matches[1].toLowerCase()
       else
-        callback body
+        now = new Date().valueOf()
+        if noMoreComplainingUntil == null || now > noMoreComplainingUntil
+          callback "... well I'm speechless (because the insult generator is down)"
+          noMoreComplainingUntil = now + 3600000
 
 module.exports = (robot) ->
 
