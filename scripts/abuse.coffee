@@ -50,12 +50,6 @@ insult = (msg, callback) ->
 
 module.exports = (robot) ->
 
-  robot.enter (msg) ->
-    return if msg.message.user.name == robot.name
-
-    insult msg, (phrase) ->
-      msg.send "#{msg.random welcomes}, you #{phrase}"
-
   robot.respond /what (?:do|did) you think (?:of|about) ([^?]+)\??$/i, (msg) ->
     insult msg, (phrase) ->
       name = nameOf(msg.match[1], robot, msg)
