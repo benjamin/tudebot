@@ -2,7 +2,7 @@
 #   Detect tweet URL and send tweet content
 #
 # Dependencies:
-#  "ntwitter": "0.2.10"
+#  "twitter": "1.4.0"
 #  "underscore": "1.5.1"
 #
 # Configuration:
@@ -17,7 +17,7 @@
 # Author:
 #   Vrtak-CZ, kdaigle
 
-ntwitter = require 'ntwitter'
+twitter = require 'twitter'
 _ = require 'underscore'
 
 find_media = (tweet_text, media, links) ->
@@ -34,7 +34,7 @@ find_media = (tweet_text, media, links) ->
 
 show_tweet = (msg, prefix, tweet) ->
   links = []
-  tweet_text = _.unescape(tweet.text)
+  tweet_text = _.unescape(tweet.full_text)
   if tweet.entities?.urls?
     for url in tweet.entities.urls
       tweet_text = tweet_text.replace(url.url, url.expanded_url)
@@ -52,18 +52,17 @@ module.exports = (robot) ->
     consumer_key:           process.env.HUBOT_TWITTER_CONSUMER_KEY,
     consumer_secret:        process.env.HUBOT_TWITTER_CONSUMER_SECRET,
     access_token_key:       process.env.HUBOT_TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret:    process.env.HUBOT_TWITTER_ACCESS_TOKEN_SECRET,
-    rest_base:              'https://api.twitter.com/1.1'
+    access_token_secret:    process.env.HUBOT_TWITTER_ACCESS_TOKEN_SECRET
 
   if not auth.consumer_key or not auth.consumer_secret or not auth.access_token_key or not auth.access_token_secret
     console.log "twitter-content.coffee: HUBOT_TWITTER_CONSUMER_KEY, HUBOT_TWITTER_CONSUMER_SECRET,
     HUBOT_TWITTER_ACCESS_TOKEN_KEY, and HUBOT_TWITTER_ACCESS_TOKEN_SECRET are required."
     return
 
-  twit = new ntwitter auth
+  twit = new twitter auth
 
   robot.hear /https?:\/\/(mobile\.)?twitter\.com\/.*?\/status\/([0-9]+)/i, (msg) ->
-    twit.getStatus msg.match[2], (err, tweet) ->
+    twit.get "statuses/show/#{msg.match[2]}", {tweet_mode: "extended"}, (err, tweet, response) ->
       if err
         console.log err
         return
